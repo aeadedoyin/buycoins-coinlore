@@ -1,2 +1,2 @@
-# buycoins-coinlore
+# Buycoins - Coinlore
 Buycoins Coinlore Challenge

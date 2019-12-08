@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:600,800&display=swap');
+
+*,
+::after,
+::before {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: rgb(220, 220, 220);
+    font-size: 15px;
+    line-height: 1.4;
+    font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Oxygen-Sans, Ubuntu, Cantarell, sans-serif;
+    display: flex;
+    height: 100vh;
+}
+
+main {
+    width: 100%;
+    margin: auto;
+    background-color: #ffffff;
+    box-shadow:  0 .5rem 1rem rgba(0,0,0,.15);
+    border-radius: .5rem;
+}
+
+@media (min-width: 1200px) {
+    main {
+        max-width: 720px;
+    }
+}
+
+/* Table */
+table {
+    width: 100%;
+    color: #212529;
+    border-collapse: collapse;
+}
+
+table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+}
+
+table td,
+table th {
+    padding: .75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+
+table tbody tr:nth-of-type(odd){
+    background-color: rgba(0, 0, 0, .05);
+}
+
+th {
+    text-align: inherit;
+}
+
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgba(0, 0, 0, .05);
+}
+
+.pagination>button {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    cursor: pointer;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+}
