@@ -90,7 +90,7 @@ let updatePage = (pageNavBtnID = 'nextBtn') => {
     }
 };
 
-(function () {
+(() => {
     // Onlanding, quickly grab coin data
     fetchCoinData();
 })();
