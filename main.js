@@ -19,13 +19,12 @@ let dataLength = 0;
 // Boilerplate to grab coin data
 let fetchCoinData = () => {
     const api = 'https://api.coinlore.com/api/tickers/';
-    fetch(api, {
-            credentials: 'same-origin'
-        })
+    fetch(api)
         .then(function (response) {
             return response.json();
         })
         .then((responseJSON) => {
+            // Store the data/length in global variable
             responseData = responseJSON.data;
             dataLength = responseData.length;
             updatePage();
@@ -40,15 +39,15 @@ let tableBodyRow = (ticker) => `<tr data-id="${ticker.id}">
                     <td data-label="💰 Coin">${ticker.name}</td>
                     <td data-label="📄 Code">${ticker.symbol}</td>
                     <td data-label="🤑 Price">$ ${ticker.price_usd}</td>
-                    <td data-label="📉 Total Supply">${ticker.tsupply} BTC</td>
+                    <td data-label="📉 Total Supply">${ticker.tsupply} ${ticker.symbol}</td>
                 </tr>`;
 
 // Update the UI based on current page
-let updateTableBody = (data, startIndex = 0, endIndex = perPage) => {
+let updateTableBody = (startIndex = 0, endIndex = perPage) => {
     tableBody.innerHTML = ''; // Clear table body before loading page specific data
-    data.slice(startIndex, endIndex).forEach(item => {
-        tableBody.insertAdjacentHTML('beforeend', tableBodyRow(item));
-    });
+    for (let i = startIndex; i < endIndex; i++) {
+        tableBody.insertAdjacentHTML('beforeend', tableBodyRow(responseData[i]));
+    }
 }
 
 // Next/Prev plage click event
@@ -62,6 +61,12 @@ nextBtn.addEventListener('click', () => {
 
 // Update pagination values, based on page nav click and on landing
 let updatePage = (pageNavBtnID = 'nextBtn') => {
+    // Reset the starting and ending index
+    let sIndex = 0;
+    let eIndex = 0;
+    // Reset navigation display
+    nextBtn.style.display = prevBtn.style.display = 'block';
+    
     // Update the currentpage value
     if (pageNavBtnID == 'nextBtn') {
         currentPage++;
@@ -69,24 +74,20 @@ let updatePage = (pageNavBtnID = 'nextBtn') => {
         currentPage--;
     }
 
-    // Check if currpage is in boundary update the row
-    if (perPage * currentPage > 0 && perPage * currentPage <= dataLength) {
-        let sIndex = (perPage * currentPage) - perPage; // Compute starting index
-        let eIndex = perPage * currentPage //  Compute ending index
-        nextBtn.style.display = 'block'; // Show next button
-        prevBtn.style.display = 'block'; // Show next button
-        updateTableBody(responseData, sIndex, eIndex); // Load page specific data
-    }
-    if ((perPage * currentPage) - perPage == 0) {
+    // Compute starting index
+    sIndex = (perPage * currentPage) - perPage;
+    // Compute ending index
+    eIndex = perPage * currentPage > dataLength ? dataLength : perPage * currentPage;
+    updateTableBody(sIndex, eIndex); // Load page specific data
+
+    if (sIndex == 0) {
         nextBtn.style.display = 'block';
         prevBtn.style.display = 'none';
     }
-    if (perPage * currentPage > dataLength - 1) {
+    if (eIndex == dataLength) {
         nextBtn.style.display = 'none';
         prevBtn.style.display = 'block';
     }
-
-    console.log(`sIndex:${(perPage * currentPage) - perPage} | eIndex:${perPage * currentPage}`)
 };
 
 (function () {
